@@ -46,11 +46,11 @@ bool FrParser::ReadNext() {
                     (index_ < end_frame_ || end_frame_ == -1)) {
       std::stringstream filepath;
       filepath << filebase_ << filepath_rgb;
-      rgb_ = cv::imread(filepath.str(), CV_LOAD_IMAGE_COLOR);
+      rgb_ = cv::imread(filepath.str(), cv::IMREAD_COLOR);
       filepath.str("");
       filepath.clear();
       filepath << filebase_ << filepath_depth;
-      depth_ = cv::imread(filepath.str(), CV_LOAD_IMAGE_ANYDEPTH);
+      depth_ = cv::imread(filepath.str(), cv::IMREAD_ANYDEPTH);
       depth_.convertTo(depth_, CV_32FC1, 1.0f / 5000);
       index_++;
       return true;

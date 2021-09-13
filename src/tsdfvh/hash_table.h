@@ -44,7 +44,7 @@ class HashTable {
    *             in that position was already allocated, -1 if the voxel block 
    *             cannot be allocated (bucket full).
    */
-  __device__ int AllocateBlock(const int3 &position);
+  __device__ int AllocateBlock(const int3 &position, unsigned int* heap_counter);
 
   /**
    * @brief      Deletes a voxel block.

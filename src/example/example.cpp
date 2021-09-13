@@ -59,28 +59,31 @@ int main(int argc, char const *argv[]) {
   int end = -1;
   int frame_skip = 1;
   FrParser parser(start, end, frame_skip);
-  if (parser.OpenFile(filebase)) {
-    while (parser.ReadNext()) {
-      tracker.AddScan(parser.GetRgb(), parser.GetDepth());
-      Eigen::Matrix4d pose = tracker.GetCurrentPose();
-      Eigen::Quaterniond rotation(pose.block<3, 3>(0, 0));
-      result << std::fixed << std::setprecision(6) << parser.GetTimestampDepth()
-             << " " << pose.block<3, 1>(0, 3).transpose() << " "
-             << rotation.vec().transpose() << " " << rotation.w() << std::endl;
-      std::cout << parser.GetIndex() << std::endl;
-      std::cout << tracker.GetCurrentPose() << std::endl;
 
-      cv::Mat virtual_rgb = tracker.GenerateRgb(1280, 960);
-      cv::imshow("RGB", virtual_rgb);
-      int k = cv::waitKey(1);
-      if (k == 27) {
-        break;
-      }
-    }
-  } else {
-    std::cerr << "Error while opening file associated.txt" << std::endl;
-    return -1;
-  }
+  tracker.GetVoxelTester();
+
+  // if (parser.OpenFile(filebase)) {
+  //   while (parser.ReadNext()) {
+  //     tracker.AddScan(parser.GetRgb(), parser.GetDepth());
+  //     Eigen::Matrix4d pose = tracker.GetCurrentPose();
+  //     Eigen::Quaterniond rotation(pose.block<3, 3>(0, 0));
+  //     result << std::fixed << std::setprecision(6) << parser.GetTimestampDepth()
+  //            << " " << pose.block<3, 1>(0, 3).transpose() << " "
+  //            << rotation.vec().transpose() << " " << rotation.w() << std::endl;
+  //     std::cout << parser.GetIndex() << std::endl;
+  //     std::cout << tracker.GetCurrentPose() << std::endl;
+
+  //     cv::Mat virtual_rgb = tracker.GenerateRgb(1280, 960);
+  //     // cv::imshow("RGB", virtual_rgb);
+  //     // int k = cv::waitKey(1);
+  //     // if (k == 27) {
+  //     //   break;
+  //     // }
+  //   }
+  // } else {
+  //   std::cerr << "Error while opening file associated.txt" << std::endl;
+  //   return -1;
+  // }
 
   result.close();
 
@@ -88,11 +91,11 @@ int main(int argc, char const *argv[]) {
   float3 low_limits = make_float3(-3, -3, 0);
   float3 high_limits = make_float3(3, 3, 4);
   refusion::tsdfvh::Mesh *mesh;
-  cudaMallocManaged(&mesh, sizeof(refusion::tsdfvh::Mesh));
-  *mesh = tracker.ExtractMesh(low_limits, high_limits);
+  // cudaMallocManaged(&mesh, sizeof(refusion::tsdfvh::Mesh));
+  // *mesh = tracker.ExtractMesh(low_limits, high_limits);
   filepath_out.str("");
   filepath_out.clear();
   filepath_out << filebase << "mesh.obj";
-  mesh->SaveToFile(filepath_out.str());
+  // mesh->SaveToFile(filepath_out.str());
   return 0;
 }

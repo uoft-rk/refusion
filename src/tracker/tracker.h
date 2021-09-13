@@ -98,6 +98,8 @@ class Tracker {
    */
   cv::Mat GenerateRgb(int width, int height);
 
+  void GetVoxelTester();
+
  protected:
   /**
    * @brief      Estimates the pose of the sensor.

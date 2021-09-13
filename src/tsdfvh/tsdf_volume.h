@@ -73,7 +73,8 @@ class TsdfVolume : public HashTable {
    *
    * @return     The voxel at the given position.
    */
-  __host__ __device__ Voxel GetVoxel(float3 position);
+  __host__ __device__ Voxel GetVoxel(float3 position, int i,
+                                     unsigned int* calls);
 
   /**
    * @brief      Gets the voxel at the specified world position obtained using 
@@ -83,7 +84,7 @@ class TsdfVolume : public HashTable {
    *
    * @return     The voxel containing the interpolated values.
    */
-  __host__ __device__ Voxel GetInterpolatedVoxel(float3 position);
+  __host__ __device__ Voxel GetInterpolatedVoxel(float3 position, int i, unsigned int* calls);
 
   /**
    * @brief      Sets the voxel at the specified position to the specified
